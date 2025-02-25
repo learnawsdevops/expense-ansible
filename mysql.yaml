@@ -1,0 +1,21 @@
+- name: mysql
+  hosts: mysql
+  become: yes
+  vars:
+    mysql_root_password: "ExpenseApp@1"
+  tasks:
+  - name: install mysql
+    yum:
+      name: mysql-server
+      state: present
+  - name: Start and Enable MySQL
+    service:
+      name: mysql
+      state: started
+      enabled: yes
+  - name: Set MySQL root password
+    mysql_user:
+      name: root
+      password: "{{ mysql_root_password }}"
+      host: mysql
+      state: present
