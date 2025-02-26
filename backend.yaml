@@ -41,7 +41,8 @@
       - PyMySQL # to connect MySQL DB from Ansible
       - cryptography
       executable: pip3.9 # pip3.11 if python version is 3.11
-
+  - name: install mysql
+    ansible.builtin.shell: dnf install mysql -y
   - name: import data into mysql
     ansible.builtin.command: "mysql -h {{login_host}} -uroot -padmin123 < /app/schema/backend.sql"
   - name: daemon-reload
