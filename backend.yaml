@@ -44,7 +44,7 @@
   - name: install mysql
     ansible.builtin.shell: dnf install mysql -y
   - name: import data into mysql
-    ansible.builtin.command: "mysql -h {{login_host}} -uroot -ExpenseApp@1 < /app/schema/backend.sql"
+    ansible.builtin.command: "mysql -h {{login_host}} -uroot -pExpenseApp@1 < /app/schema/backend.sql"
   - name: daemon-reload
     ansible.builtin.systemd_service:
       daemon_reload: true
