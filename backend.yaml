@@ -3,7 +3,7 @@
   become: yes
   vars:
     login_host: db.hiteshshop.store
-    login_password: admin123
+    login_password: ExpenseApp@1
   tasks:
   - name: disable and enable nodejs:18
     ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
@@ -35,12 +35,10 @@
     ansible.builtin.command: npm install
     args:
       creates: /app
-  - name: install python mysql dependencies
-    ansible.builtin.pip: 
-      name:
-      - PyMySQL # to connect MySQL DB from Ansible
-      - cryptography
-      executable: pip3.9 # pip3.11 if python version is 3.11
+  - name: add backend service path in remote
+    ansible.builtin.copy:
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
   - name: install mysql
     ansible.builtin.shell: dnf install mysql -y
   - name: import data into mysql
@@ -48,10 +46,6 @@
   - name: daemon-reload
     ansible.builtin.systemd_service:
       daemon_reload: true
-    - name: add mysql.repo path in remote
-    ansible.builtin.copy:
-      src: backend.service
-      dest: /etc/systemd/system/backend.service
   - name: Enable backend service and start the service
     ansible.builtin.service:
       name: backend
