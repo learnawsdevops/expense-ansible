@@ -1,9 +1,9 @@
 - name: backend
   hosts: backend
   become: yes
-   vars:
-    login_host: db.hiteshshop.store
-    login_password: admin123
+  vars:
+  login_host: db.hiteshshop.store
+  login_password: admin123
   tasks:
   - name: disable and enable nodejs:18
     ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
