@@ -1,6 +1,9 @@
 - name: backend
   hosts: backend
   become: yes
+   vars:
+    login_host: db.hiteshshop.store
+    login_password: admin123
   tasks:
   - name: disable and enable nodejs:18
     ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
@@ -28,5 +31,32 @@
       src: /tmp/backend.zip
       dest: /app
       remote_src: yes
+  - name: install dependencies
+    ansible.builtin.command: npm install
+    args:
+      creates: /app
+  - name: install python mysql dependencies
+    ansible.builtin.pip: 
+      name:
+      - PyMySQL # to connect MySQL DB from Ansible
+      - cryptography
+      executable: pip3.9 # pip3.11 if python version is 3.11
+
+  - name: import data into mysql
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{ login_password }}"
+      login_host: "{{ login_host }}"
+      target: /app/schema/backend.sql
+      state: import
+      name: all
+  - name: daemon-reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+  - name: Enable service httpd, and not touch the state
+    ansible.builtin.service:
+      name: backend
+      enabled: yes
+  
   
   
