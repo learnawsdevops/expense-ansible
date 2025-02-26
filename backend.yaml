@@ -56,7 +56,7 @@
   - name: Enable service httpd, and not touch the state
     ansible.builtin.service:
       name: backend
-      state:started
+      state: started
       enabled: yes
   
   
