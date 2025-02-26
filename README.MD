@@ -1,0 +1,1 @@
+ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e anisble_password=DevOps321 mysql.yaml
