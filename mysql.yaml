@@ -9,7 +9,7 @@
     private: no
   tasks:
   - name: add mysql.repo path in remote
-    ansible.builtin.file:
+    ansible.builtin.copy:
       src: mysql.repo
       dest: /etc/yum.repos.d/mysql.repo
   - name: Install MySQL Server
