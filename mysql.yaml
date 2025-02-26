@@ -3,6 +3,7 @@
   become: yes
   vars:
     mysql_root_password: ExpenseApp@1
+  tasks:
   - name: Install MySQL Server
     ansible.builtin.command: dnf install mysql-server -y
 
