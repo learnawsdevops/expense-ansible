@@ -34,7 +34,7 @@
   - name: install dependencies
     ansible.builtin.command: npm install
     args:
-      creates: /app
+      chdir: /app
   - name: add backend service path in remote
     ansible.builtin.copy:
       src: backend.service
